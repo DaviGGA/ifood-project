@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
 import { Express } from "express";
-
+import cors from "cors";
 export default interface HttpServer {
-    register(method: string, url: string, callback: Function): void
+    register(method: string, url: string, callback: Function, ...middlewares: Function[]): void
     listen(port: number): void;
 }
 
@@ -11,13 +11,14 @@ export class ExpressAdapter implements HttpServer {
 
     constructor() {
         this.app = express();
+        this.app.use(cors());
         this.app.use(express.json());
     }
     
-    register(method: string, url: string, callback: Function): void {
-        this.app[method](url, async (req: Request, res: Response) => {
+    register(method: string, url: string, callback: Function,...middlewares: Function[]): void {
+        this.app[method](url,...middlewares ,async (req: Request, res: Response) => {
             try {
-                const output = await callback(req.params, req.body);
+                const output = await callback(req.params, req.body, req.file);
                 return res.status(200).send(output);
             } catch (error: any) {
                 console.log(error);

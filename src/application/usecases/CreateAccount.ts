@@ -15,7 +15,7 @@ export class CreateAccount {
 
     constructor(readonly accountRepository: AccountRepository) {}
 
-    async execute(input: Input): Promise<Output> {
+    async execute(input: Input): Promise<Output> {;
         if(input.password != input.confirmPassword) throw new Error("Passwords doesn't match");
         const account = Account.create(input.email, input.password);
         await this.accountRepository.insertAccount(account);

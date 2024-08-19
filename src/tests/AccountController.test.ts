@@ -2,11 +2,11 @@ import axios, { AxiosError } from "axios";
 import { describe, expect, it } from "vitest";
 import 'dotenv/config'
 
-describe("POST /users", () => {
+describe("POST /accounts", () => {
     it("Should return 200 when creating user", async () => {
         if (!process.env.baseURL) throw new Error("No api url provided at .env");
 
-        const url = process.env.baseURL + "/users";
+        const url = process.env.baseURL + "/accounts";
 
         const input = {
             email: `john.doe${Math.random()}@hotmail.com`,
@@ -25,7 +25,7 @@ describe("POST /users", () => {
     it("Should return 400 when password mismatches", async () => {
         if (!process.env.baseURL) throw new Error("No api url provided at .env");
 
-        const url = process.env.baseURL + "/users";
+        const url = process.env.baseURL + "/accounts";
 
         const input = {
             email: `john.doe${Math.random()}@hotmail.com`,
